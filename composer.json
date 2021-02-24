@@ -1,5 +1,5 @@
 {
-    "name": "wow-apps/symfony-slack-bot",
+    "name": "jeremiefollow/symfony-slack-bot",
     "license": "MIT",
     "description": "Simple Symfony 3 and 4 Bundle for sending customizeable messages to Slack via incoming webhooks",
     "type": "symfony-bundle",
