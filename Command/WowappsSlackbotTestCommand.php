@@ -19,6 +19,7 @@
 namespace WowApps\SlackBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -33,13 +34,14 @@ use WowApps\SlackBundle\Service\SlackBot;
 use WowApps\SlackBundle\Service\SlackColor;
 use WowApps\SlackBundle\Service\SlackEmoji;
 use WowApps\SlackBundle\Service\SlackMarkdown;
+use WowApps\SlackBundle\Service\SlackMessageBuilder;
 use WowApps\SlackBundle\Templating\Template\SlackException;
 use WowApps\SlackBundle\WowAppsSlackBundle;
 
 /**
  * @author Alexey Samara <lion.samara@gmail.com>
  */
-class WowappsSlackbotTestCommand extends ContainerAwareCommand
+class WowappsSlackbotTestCommand extends Command
 {
     const COMMAND_NAME = 'wowapps:slackbot:test';
 
@@ -52,6 +54,13 @@ class WowappsSlackbotTestCommand extends ContainerAwareCommand
 
     /** @var array */
     private $config;
+
+    public function __construct(SlackBot $slackBot)
+    {
+        parent::__construct();
+        $this->slackBot = $slackBot;
+    }
+
 
     /**
      * {@inheritdoc}
@@ -74,7 +83,6 @@ class WowappsSlackbotTestCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /* Work with container for support of Symfony 3 early versions */
-        $this->slackBot = $this->getContainer()->get('wowapps.slackbot');
         $this->config = $this->slackBot->getConfig();
 
         $this->drawHeader($output);
@@ -177,8 +185,8 @@ class WowappsSlackbotTestCommand extends ContainerAwareCommand
             ->setTitleLink('https://github.com/wow-apps/symfony-slack-bot')
             ->setText(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut '
-                    . 'labore et dolore magna aliqua. Morbi non arcu risus quis. At ultrices mi tempus imperdiet. '
-                    . 'Suspendisse in est ante in nibh mauris cursus mattis molestie.'
+                . 'labore et dolore magna aliqua. Morbi non arcu risus quis. At ultrices mi tempus imperdiet. '
+                . 'Suspendisse in est ante in nibh mauris cursus mattis molestie.'
             )
             ->setFooter('Alexey Samara')
             ->setFooterIconUrl('https://avatars2.githubusercontent.com/u/2779949?s=460&v=4')
