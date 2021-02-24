@@ -22,6 +22,8 @@ services:
         public: false
         autowire: false
         tags: ['console.command']
+        arguments:
+            $slackBot: '@WowApps\SlackBundle\Service\SlackBot'
 
     WowApps\SlackBundle\Service\SlackTemplatingManager:
         public: false
